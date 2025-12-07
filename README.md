@@ -1,4 +1,4 @@
-# Proyecto mini app
+# Proyecto mini app de prueba
 
 ---
 
