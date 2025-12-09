@@ -37,8 +37,8 @@ import com.app.myapplication.presentation.viewModel.PayViewModel
 
 @Composable
 fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel = viewModel()) {
-    val input by moneyInputViewModel.input // Obtiene el valor del monto ingresado
-    var errorMessage by remember { mutableStateOf("") } // Estado para el mensaje de error
+    val input by moneyInputViewModel.input
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -47,7 +47,6 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Mostramos el mensaje de error si lo hay
         if (errorMessage.isNotEmpty()) {
             Text(
                 text = errorMessage,
@@ -57,7 +56,6 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
             )
         }
 
-        // Campo de texto para el monto
         OutlinedTextField(
             value = input,
             onValueChange = {},
@@ -79,7 +77,6 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
             )
         )
 
-        // Teclado numérico (continúa como antes)
         NumericKeyboard(onButtonPressed = { button ->
             when (button) {
                 "C" -> moneyInputViewModel.onClearClick()
@@ -90,10 +87,8 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
                     if ((amount.toIntOrNull() ?: 0) <= 0) {
                         errorMessage = "El monto debe ser mayor que cero."
                     } else {
-                        errorMessage = "" // Limpiar el mensaje de error
+                        errorMessage = "" 
                         navController.navigate("loading/$amount")
-
-                        // Simula el proceso de carga y luego va a la pantalla de confirmación
                         Handler().postDelayed({
                             navController.navigate("confirmation/$amount")
                         }, 2000)
@@ -111,16 +106,15 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
             onClick = {
                 val amount = moneyInputViewModel.onAcceptClick()
 
-                // Validar que el monto sea mayor a cero
                 if (amount.toIntOrNull() ?: 0 <= 0) {
                     errorMessage = "El monto debe ser mayor que cero."
                 } else {
-                    errorMessage = "" // Limpiar el mensaje de error
+                    errorMessage = ""
                     navController.navigate("loading/$amount")
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = input.isNotEmpty() // Habilitar solo si el campo no está vacío
+            enabled = input.isNotEmpty()
         ) {
             Text("Aceptar", style = MaterialTheme.typography.bodyLarge)
         }
@@ -129,7 +123,6 @@ fun PayView(navController: NavHostController, moneyInputViewModel: PayViewModel 
 
 @Composable
 fun NumericKeyboard(onButtonPressed: (String) -> Unit) {
-    // Definir los botones del teclado numérico
     val rows = listOf(
         listOf("1", "2", "3"),
         listOf("4", "5", "6"),
@@ -152,7 +145,7 @@ fun NumericKeyboard(onButtonPressed: (String) -> Unit) {
                             onButtonPressed(buttonText)
                         })
                     } else {
-                        Spacer(modifier = Modifier.size(80.dp)) // Espaciador para botones vacíos
+                        Spacer(modifier = Modifier.size(80.dp))
                     }
                 }
             }

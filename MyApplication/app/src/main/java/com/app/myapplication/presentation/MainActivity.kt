@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyApplicationTheme {
-                // Llama a la función con la configuración del NavHost
                 MyApp(repository)
             }
         }
@@ -48,14 +47,12 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyApp(repository: PagoRepository) {
-    val navController = rememberNavController() // Controlador de navegación
-    // Configuración de la navegación
+    val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            // Barra de navegación inferior
             NavigationBar {
                 NavigationBarItem(
-                    selected = false, // Cambia este valor según la navegación actual
+                    selected = false, 
                     onClick = { navController.navigate("pay") },
                     icon = { Icon(Icons.Rounded.Done, contentDescription = "pay") },
                     label = { Text("Cobrar") }
@@ -74,7 +71,6 @@ fun MyApp(repository: PagoRepository) {
                 PayView(navController = navController)
             }
             composable("historical") {backStackEntry->
-                // Crear ViewModel usando factory
                 val historyVM: HistoricalViewModel = viewModel(
                     backStackEntry,
                     factory = HistoryVMFactory(repository)

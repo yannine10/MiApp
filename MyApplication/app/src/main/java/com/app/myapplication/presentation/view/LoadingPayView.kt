@@ -26,17 +26,15 @@ fun LoadingPayView(navController: NavController, amount: String, loadingViewMode
     val isLoading by loadingViewModel.isLoading
     val cardNumber by loadingViewModel.cardNumber
 
-    // Comenzamos el proceso de carga
     LaunchedEffect(Unit) {
-        loadingViewModel.startLoading(amount) // Generamos el número de tarjeta
+        loadingViewModel.startLoading(amount)
         Handler().postDelayed({
-            loadingViewModel.stopLoading() // Detenemos el loading después de 2 segundos
-            navController.navigate("confirmation/$amount/$cardNumber") // Navegar a la confirmación
-        }, 2000) // 2 segundos de espera
+            loadingViewModel.stopLoading()
+            navController.navigate("confirmation/$amount/$cardNumber")
+        }, 2000)
     }
 
     if (isLoading) {
-        // Pantalla de carga
         Column(
             modifier = Modifier
                 .fillMaxSize()
